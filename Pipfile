@@ -6,6 +6,9 @@ name = "pypi"
 [packages]
 django = "*"
 requests = "*"
+djangorestframework = "*"
+djangorestframework-simplejwt = "*"
+drf-yasg = "*"
 
 [dev-packages]
 
