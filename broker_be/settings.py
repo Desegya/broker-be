@@ -25,7 +25,12 @@ SECRET_KEY = "django-insecure-39@l1)kkbpkeni9a&%n=i&^hx(vz441_$kq3!iud()x7&e^@a5
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    "supacrypt2.pythonanywhere.com",
+    "127.0.0.1",
+    "localhost",
+    "https://supacrypt.vercel.app",
+]
 
 
 # Application definition
@@ -118,7 +123,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = "static/"
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'  
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
