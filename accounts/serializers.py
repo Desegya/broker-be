@@ -5,10 +5,14 @@ from .models import UserProfile
 
 class SignupSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
+    first_name = serializers.CharField(required=False, allow_blank=True)
+    last_name = serializers.CharField(required=False, allow_blank=True)
+    phone_number = serializers.CharField(required=False, allow_blank=True)
+    country = serializers.CharField(required=False, allow_blank=True)
 
     class Meta:
         model = User
-        fields = ["username", "email", "password"]
+        fields = ["username", "email", "password", "first_name", "last_name", "phone_number", "country"]
 
     def create(self, validated_data):
         user = User.objects.create_user(
@@ -16,7 +20,13 @@ class SignupSerializer(serializers.ModelSerializer):
             email=validated_data.get("email", ""),
             password=validated_data["password"],
         )
-        UserProfile.objects.create(user=user)
+        UserProfile.objects.create(
+            user=user,
+            first_name=validated_data.get("first_name", ""),
+            last_name=validated_data.get("last_name", ""),
+            phone_number=validated_data.get("phone_number", ""),
+            country=validated_data.get("country", ""),
+        )
         return user
 
 

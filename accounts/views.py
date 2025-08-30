@@ -10,6 +10,35 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from .models import UserProfile
 from .serializers import UserProfileSerializer, SignupSerializer
 from rest_framework_simplejwt.views import TokenVerifyView
+from rest_framework_simplejwt.tokens import RefreshToken
+from django.contrib.auth import authenticate
+class CustomLoginView(APIView):
+    permission_classes = [AllowAny]
+
+    # @swagger_auto_schema(request_body=SignupSerializer)
+    def post(self, request):
+        username = request.data.get("username")
+        password = request.data.get("password")
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            refresh = RefreshToken.for_user(user)
+            try:
+                profile = UserProfile.objects.get(user=user)
+            except UserProfile.DoesNotExist:
+                return Response({"error": "Profile not found"}, status=404)
+            data = {
+                "refresh": str(refresh),
+                "access": str(refresh.access_token),
+                "username": user.username,
+                "email": user.email,
+                "first_name": profile.first_name,
+                "last_name": profile.last_name,
+                "phone_number": profile.phone_number,
+                "country": profile.country,
+                "balance": str(profile.balance),
+            }
+            return Response(data)
+        return Response({"error": "Invalid credentials"}, status=401)
 
 
 class SignupView(APIView):

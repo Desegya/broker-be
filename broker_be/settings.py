@@ -152,4 +152,7 @@ SIMPLE_JWT = {
 
 CORS_ALLOWED_ORIGINS = [
     "https://supacrypt.vercel.app",
+    "http://localhost:3000",
+    "http://localhost:3002",
+    "http://127.0.0.1:3002",
 ]
